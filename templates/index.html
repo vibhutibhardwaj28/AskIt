@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskIt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #1a1a2e;
+            --dark-card: #2c2c4d;
+            --dark-border: #4a4a6e;
+            --dark-text: #e0e0e0;
+            --dark-accent: #8e44ad;
+            --dark-accent-hover: #9b59b6;
+            --dark-placeholder: #a0a0c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            line-height: 1.6;
+            font-size: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header {
+            width: 100%;
+            padding: 40px 24px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--dark-border);
+            background: var(--dark-bg);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark-text);
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 40px 24px;
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--dark-card);
+            border-radius: 8px;
+            padding: 28px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        main h2 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-bottom: 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 18px;
+            font-size: 15px;
+            font-family: inherit;
+            border: 1px solid var(--dark-border);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 140px;
+            background: var(--dark-bg);
+            color: var(--dark-text);
+            transition: border-color 0.2s ease;
+        }
+
+        textarea::placeholder {
+            color: var(--dark-placeholder);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--dark-accent);
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: inherit;
+            color: #fff;
+            background: var(--dark-accent);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--dark-accent-hover);
+        }
+
+        .qa-container h2 {
+            margin-top: 20px;
+        }
+
+        .qa-item {
+            background: var(--dark-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+            color: var(--dark-text);
+        }
+
+        .qa-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .qa-item p {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        .qa-item strong {
+            color: var(--dark-accent);
+            font-weight: 600;
+        }
+
+        .qa-container > p {
+            color: var(--dark-placeholder);
+            font-size: 14px;
+        }
+
+        footer {
+            width: 100%;
+            padding: 20px 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--dark-placeholder);
+            border-top: 1px solid var(--dark-border);
+            background: var(--dark-bg);
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: var(--dark-accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            textarea {
+                min-height: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 30px 15px 25px;
+            }
+            main {
+                padding: 20px 15px;
+            }
+            .card {
+                padding: 18px;
+            }
+            h2 {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>AskIt</h1>
+    </header>
+
+    <!-- Main Section -->
+    <main>
+        <div class="card">
+            <h2>Generate Questions & Answers</h2>
+            <form method="POST" action="/">
+                <textarea name="context_text" placeholder="Paste your text here..." rows="8"></textarea>
+                <button type="submit">Generate Q&A</button>
+            </form>
+        </div>
+
+        <div class="card qa-container">
+            <h2>Generated Q&A:</h2>
+            {% if generated_qas %}
+                {% for question, answer in generated_qas %}
+                    <div class="qa-item">
+                        <p><strong>Question:</strong> {{ question }}</p>
+                        <p><strong>Answer:</strong> {{ answer }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No Q&A generated yet. Paste your text above and click "Generate Q&A".</p>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <p>AskIt &mdash; Q&A Generation powered by fine-tuned T5</p>
+    </footer>
+</body>
+</html>

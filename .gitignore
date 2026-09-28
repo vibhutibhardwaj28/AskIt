@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+
+# Local tooling and operating-system files
+.DS_Store
+.idea/
+.vscode/
+.cursor/
+.ropeproject/
+
+# Generated logs and model/cache output
+*.log
+catboost_info/
+
